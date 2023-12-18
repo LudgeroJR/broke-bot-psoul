@@ -1,0 +1,5 @@
+.env
+/node_modules
+/src/registerCommands.js
+/src/cadastraBroke.js
+/src/brokes.json
