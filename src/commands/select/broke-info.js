@@ -82,7 +82,7 @@ module.exports = {
         const pokemonName = existName.value;
 
         const query = {
-          pokemonName: pokemonName,
+          pokemonName: { $regex: pokemonName, $options: 'i'},
         }; 
 
         try {
@@ -94,9 +94,9 @@ module.exports = {
           }
 
           if(consulta.length > 1){
-            let message = `Existem duas ou mais brokes cadastradas com o Nome **${pokemonName}**.\n<@345350823485636609> Aconselho excluir a broke e recastrar.\n\n`;
+            let message = `Duas ou mais brokes encontradas com ${pokemonName}\n\n`;
             for(let i = 0; i < consulta.length; i++){
-              message += `Dex: ${consulta[i].dex}\n`;
+              message += `**${consulta[i].dex} ${consulta[i].pokemonName}**: ${consulta[i].pokemonBroke}. Por: ${consulta[i].authorName}\n`;
             }
             interaction.reply(message);
             return;
