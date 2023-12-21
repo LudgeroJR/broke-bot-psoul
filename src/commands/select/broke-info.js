@@ -96,7 +96,7 @@ module.exports = {
           if(consulta.length > 1){
             let message = `Duas ou mais brokes encontradas com ${pokemonName}\n\n`;
             for(let i = 0; i < consulta.length; i++){
-              message += `**${consulta[i].dex} ${consulta[i].pokemonName}**: ${consulta[i].pokemonBroke}. Por: ${consulta[i].authorName}\n`;
+              message += `**#${consulta[i].dex} ${consulta[i].pokemonName}**: ${consulta[i].pokemonBroke}. Por: ${consulta[i].authorName}\n`;
             }
             interaction.reply(message);
             return;
