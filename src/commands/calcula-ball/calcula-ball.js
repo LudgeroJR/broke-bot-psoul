@@ -46,28 +46,46 @@ module.exports = {
       let message = "";
       let pontos = 0;
 
+      if (porcBall4x.value > 100){
+        porcBall4x.value = 100;
+      }
+      if (porcBall3x.value > 100){
+        porcBall3x.value = 100;
+      }
+      if(porcBall2x.value > 100){
+        porcBall2x.value = 100;
+      }
       if (porcBall4x.value !== 0){
-        let ball4x = Math.ceil((pontosRestantes * (porcBall4x.value / 100)) / 4);
+        let ball4x = Math.floor((pontosRestantes * (porcBall4x.value / 100)) / 4);
 
-        pontos = ball4x * 4;
+        if(ball4x !== 0){
+          pontos = ball4x * 4;
         message += `Ball4x: ${ball4x} - Pontos: ${pontos}` ;
         pontosRestantes -= ball4x * 4;
+        }
+        
       }
 
       if (porcBall3x.value !== 0){
-        let ball3x = Math.ceil((pontosRestantes * (porcBall3x.value / 100)) / 3);
-
-        pontos = ball3x * 3;
+        let ball3x = Math.floor((pontosRestantes * (porcBall3x.value / 100)) / 3);
+        
+        if(ball3x !== 0){
+          pontos = ball3x * 3;
         message += `\nUltraball: ${ball3x} - Pontos: ${pontos}`;
         pontosRestantes -= ball3x * 3;
+        }
+        
       }
 
       if (porcBall2x.value !== 0){
-        let ball2x = Math.ceil((pontosRestantes * (porcBall2x.value / 100)) / 2);
+        let ball2x = Math.floor((pontosRestantes * (porcBall2x.value / 100)) / 2);
 
-        pontos = ball2x * 2;
+        if(ball2x !== 0){
+          pontos = ball2x * 2;
         message += `\nGreatball: ${ball2x} - Pontos: ${pontos}`;
         pontosRestantes -= ball2x * 2;
+        }
+        
       }
 
       if (pontosRestantes !== 0){
