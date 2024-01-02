@@ -57,10 +57,22 @@ module.exports = {
           const consBroke = consulta[0].pokemonBroke;
           const consAuthor = consulta[0].authorName;
 
+          const dexInt = parseInt(consDex);
+          var thumb;
+          if (dexInt < 10){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/00${dexInt}.png`;
+          } else if (dexInt < 100){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/0${dexInt}.png`;
+          } else if (dexInt < 1000){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${dexInt}.png`;
+          } else{
+            thumb = "https://assets.pokemon.com/assets/cms2-pt-br/img/misc/gus/buttons/logo-pokemon-79x45.png";
+          };
 
         const embed = new EmbedBuilder()
         .setTitle(`#${consDex} ${consName}`)
         .setDescription(`Broke: ${consBroke}`)
+        .setThumbnail(thumb)
         .addFields(
         {
             name: 'Cadastrado por:',
@@ -107,9 +119,22 @@ module.exports = {
           const consBroke = consulta[0].pokemonBroke;
           const consAuthor = consulta[0].authorName;
 
+          const dexInt = parseInt(consDex);
+          var thumb;
+          if (dexInt < 10){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/00${dexInt}.png`;
+          } else if (dexInt < 100){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/0${dexInt}.png`;
+          } else if (dexInt < 1000){
+            thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${dexInt}.png`;
+          } else{
+            thumb = "https://assets.pokemon.com/assets/cms2-pt-br/img/misc/gus/buttons/logo-pokemon-79x45.png";
+          };
+
         const embed = new EmbedBuilder()
         .setTitle(`#${consDex} ${consName}`)
         .setDescription(`Broke: ${consBroke}`)
+        .setThumbnail(thumb)
         .addFields(
         {
             name: 'Cadastrado por:',
