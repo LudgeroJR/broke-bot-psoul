@@ -29,6 +29,9 @@ module.exports = (dexInt) => {
 			case 1825:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/058_f2.png`;
 				break;
+			case 1826:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/059_f2.png`;
+				break;
 			case 1827:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/100_f2.png`;
 				break;
@@ -38,17 +41,29 @@ module.exports = (dexInt) => {
 			case 1829:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/157_f2.png`;
 				break;
-			case 1829:
-				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/157_f2.png`;
-				break;
 			case 1831:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/215_f2.png`;
+				break;
+			case 1832:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/503_f2.png`;
+				break;
+			case 1833:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/549_f2.png`;
 				break;
 			case 1834:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/570_f2.png`;
 				break;
 			case 1836:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/628_f2.png`;
+				break;
+			case 1837:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/705_f2.png`;
+				break;
+			case 1838:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/706_f2.png`;
+				break;
+			case 1839:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/713_f2.png`;
 				break;
 			case 1840:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/724_f2.png`;
