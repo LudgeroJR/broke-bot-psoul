@@ -41,6 +41,9 @@ module.exports = (dexInt) => {
 			case 1829:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/157_f2.png`;
 				break;
+			case 1830:
+				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/211_f2.png`;
+				break;
 			case 1831:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/215_f2.png`;
 				break;
