@@ -112,6 +112,6 @@ module.exports = {
 		// message +=
 		// 	"\n\nA Guild ARK invoca o **BUFF AH PUFF** para abençoar sua broke.";
 
-		interaction.reply({ embeds: [embed] });
+		interaction.reply({ embeds: [embed], ephemeral: true });
 	},
 };

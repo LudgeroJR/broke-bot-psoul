@@ -53,6 +53,9 @@ module.exports = (dexInt) => {
 			case 1840:
 				thumb = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/724_f2.png`;
 				break;
+			case 9502:
+				thumb = `https://static.pokemonpets.com/images/monsters-images-300-300/4095-Crystal-Onix.webp`;
+				break;
 			default:
 				thumb =
 					"https://assets.pokemon.com/assets/cms2-pt-br/img/misc/gus/buttons/logo-pokemon-79x45.png";
