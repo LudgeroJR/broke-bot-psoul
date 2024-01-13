@@ -35,6 +35,8 @@ module.exports = {
 					modalInteraction.fields.getTextInputValue("listMTInput");
 				const eggMoveValue =
 					modalInteraction.fields.getTextInputValue("eggMoveInput");
+				const vitaminsBuildValue =
+					modalInteraction.fields.getTextInputValue("vitaminsBuildInput");
 				const detailBuildValue =
 					modalInteraction.fields.getTextInputValue("detailsBuildInput");
 
@@ -52,8 +54,12 @@ module.exports = {
 					descriptionEmbed += `\n\n**eggMove**\n${eggMoveValue}`;
 				}
 
+				if (vitaminsBuildValue) {
+					descriptionEmbed += `\n\n**Vitaminas**\n${vitaminsBuildValue}`;
+				}
+
 				if (detailBuildValue) {
-					descriptionEmbed += `\n\n**Vitaminas**\n${detailBuildValue}`;
+					descriptionEmbed += `\n\n**Objetivos**\n${detailBuildValue}`;
 				}
 
 				const avatar = interaction.user.displayAvatarURL();

@@ -8,7 +8,7 @@ const {
 module.exports = (interaction, pokemonName) => {
 	const modal = new ModalBuilder({
 		custom_id: `myBuild-${interaction.user.id}`,
-		title: `${pokemonName} Build`,
+		title: `${pokemonName}'s Build`,
 	});
 
 	const listTMInput = new TextInputBuilder({
@@ -32,11 +32,18 @@ module.exports = (interaction, pokemonName) => {
 		placeholder: "nomeAtk > nomeEggMove",
 		required: false,
 	});
-	const detailsBuildInput = new TextInputBuilder({
-		custom_id: "detailsBuildInput",
+	const vitaminsBuildInput = new TextInputBuilder({
+		custom_id: "vitaminsBuildInput",
 		label: "Vitaminas",
 		style: TextInputStyle.Paragraph,
 		placeholder: "Ex.: 3x Protein\n3x Iron\n3x Calcium",
+		required: false,
+	});
+	const detailsBuildInput = new TextInputBuilder({
+		custom_id: "detailsBuildInput",
+		label: "Objetivos",
+		style: TextInputStyle.Short,
+		placeholder: "Ex.: Build focada em PVE",
 		required: false,
 	});
 
@@ -44,6 +51,9 @@ module.exports = (interaction, pokemonName) => {
 	const secondActionRow = new ActionRowBuilder().addComponents(listMTInput);
 	const thirdActionRow = new ActionRowBuilder().addComponents(eggMoveInput);
 	const fourthActionRow = new ActionRowBuilder().addComponents(
+		vitaminsBuildInput
+	);
+	const fifthActionRow = new ActionRowBuilder().addComponents(
 		detailsBuildInput
 	);
 
@@ -51,7 +61,8 @@ module.exports = (interaction, pokemonName) => {
 		firstActionRow,
 		secondActionRow,
 		thirdActionRow,
-		fourthActionRow
+		fourthActionRow,
+		fifthActionRow
 	);
 
 	return modal;
