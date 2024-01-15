@@ -63,6 +63,7 @@ module.exports = {
 				}
 
 				const avatar = interaction.user.displayAvatarURL();
+				const avatarGuild = interaction.guild.iconURL();
 
 				const embed = new EmbedBuilder()
 					.setColor("Random")
@@ -72,7 +73,8 @@ module.exports = {
 						name: `Criado por: ${interaction.user.globalName}`,
 					})
 					.setFooter({
-						text: "A Guild ARKHAM não se responsabiliza pelos dados contido nesta Build.",
+						text: "Agradecemos profundamente por sua generosa contribuição.",
+						iconURL: avatarGuild,
 					});
 
 				if (descriptionEmbed !== "") {

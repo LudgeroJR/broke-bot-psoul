@@ -41,8 +41,8 @@ module.exports = (interaction, pokemonName) => {
 	});
 	const detailsBuildInput = new TextInputBuilder({
 		custom_id: "detailsBuildInput",
-		label: "Objetivos",
-		style: TextInputStyle.Short,
+		label: "Observações",
+		style: TextInputStyle.Paragraph,
 		placeholder: "Ex.: Build focada em PVE",
 		required: false,
 	});
