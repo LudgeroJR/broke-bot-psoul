@@ -8,8 +8,8 @@ const {
 	server,
 } = require("../../../config.json");
 const getLocalCommands = require("../../utils/getLocalCommands");
-let devRole = null;
 let memberRole = null;
+let devsRole = null;
 
 module.exports = async (client, interaction) => {
 	if (!interaction.isChatInputCommand()) return;
@@ -45,8 +45,24 @@ module.exports = async (client, interaction) => {
 			return;
 		}
 
+		// if (commandObject.devOnly) {
+		// 	if (!devs.includes(interaction.member.id)) {
+		// 		interaction.reply({
+		// 			content: "Você não tem permissão para executar esse comando.",
+		// 			ephemeral: true,
+		// 		});
+		// 		return;
+		// 	}
+		// }
+
 		if (commandObject.devOnly) {
-			if (!devs.includes(interaction.member.id)) {
+			for (let i = 0; i < devs.length; i++) {
+				devsRole = interaction.member.roles.cache.find((r) => r.id === devs[i]);
+				if (devsRole) {
+					break;
+				}
+			}
+			if (!devsRole) {
 				interaction.reply({
 					content: "Você não tem permissão para executar esse comando.",
 					ephemeral: true,
