@@ -2,86 +2,114 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const createModal = require("../../utils/createModal");
 
 module.exports = {
-	name: "build",
-	description: "Registre a Build do seu Pokemon",
-	options: [
-		{
-			name: "pokemon",
-			description: "Pokemon",
-			type: ApplicationCommandOptionType.String,
-			required: true,
-		},
-	],
-	// devOnly: true,
-	// memberOnly: true,
-	// testOnly: true,
-	// deleted: Boolean,
+  name: "build",
+  description: "Registre a Build do seu Pokemon",
+  options: [
+    {
+      name: "pokemon",
+      description: "Pokemon",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+    },
+    {
+      name: "avatar",
+      description: "Cole uma URL com a imagem do pokemon.",
+      type: ApplicationCommandOptionType.String,
+      required: false,
+    },
+  ],
+  // devOnly: true,
+  // memberOnly: true,
+  // testOnly: true,
+  // deleted: Boolean,
 
-	callback: async (client, interaction) => {
-		const pokemonName = interaction.options.get("pokemon").value;
-		const modal = createModal(interaction, pokemonName);
+  callback: async (client, interaction) => {
+    const pokemonName = interaction.options.get("pokemon").value;
+    var thumb;
+    var avatarPokemon;
 
-		await interaction.showModal(modal);
+    // Verificar se algum valor foi adicionado na URL do avatar pokemon
+    if (
+      interaction.options.get("avatar") !== null &&
+      interaction.options.get("avatar") !== undefined
+    ) {
+      avatarPokemon = interaction.options.get("avatar").value;
+      // Verifica se é uma URL válida ou apenas o codigo da imagem retirada do site Pokemon.com. Coloquei porque eu vou usar apenas o código para facilitar.
+      if (
+        !avatarPokemon.startsWith("https://") &&
+        !avatarPokemon.startsWith("http://")
+      ) {
+        prefixo = "https://assets.pokemon.com/assets/cms2/img/pokedex/full";
+        thumb = `${prefixo}/${avatarPokemon}.png`;
+      } else {
+        thumb = avatarPokemon;
+      }
+    }
 
-		const filter = (interaction) =>
-			interaction.customId === `myBuild-${interaction.user.id}`;
+    const modal = createModal(interaction, pokemonName);
 
-		interaction
-			.awaitModalSubmit({ filter, time: 600_000 })
-			.then((modalInteraction) => {
-				const listTMValue =
-					modalInteraction.fields.getTextInputValue("listTMInput");
-				const listMTValue =
-					modalInteraction.fields.getTextInputValue("listMTInput");
-				const eggMoveValue =
-					modalInteraction.fields.getTextInputValue("eggMoveInput");
-				const vitaminsBuildValue =
-					modalInteraction.fields.getTextInputValue("vitaminsBuildInput");
-				const detailBuildValue =
-					modalInteraction.fields.getTextInputValue("detailsBuildInput");
+    await interaction.showModal(modal);
 
-				let descriptionEmbed = "";
+    const filter = (interaction) =>
+      interaction.customId === `myBuild-${interaction.user.id}`;
 
-				if (listTMValue) {
-					descriptionEmbed += `**TM's**\n${listTMValue}`;
-				}
+    interaction
+      .awaitModalSubmit({ filter, time: 600_000 })
+      .then((modalInteraction) => {
+        const listTMValue =
+          modalInteraction.fields.getTextInputValue("listTMInput");
+        const listMTValue =
+          modalInteraction.fields.getTextInputValue("listMTInput");
+        const eggMoveValue =
+          modalInteraction.fields.getTextInputValue("eggMoveInput");
+        const vitaminsBuildValue =
+          modalInteraction.fields.getTextInputValue("vitaminsBuildInput");
+        const detailBuildValue =
+          modalInteraction.fields.getTextInputValue("detailsBuildInput");
 
-				if (listMTValue) {
-					descriptionEmbed += `\n\n**MoveTutors**\n${listMTValue}`;
-				}
+        let descriptionEmbed = "";
 
-				if (eggMoveValue) {
-					descriptionEmbed += `\n\n**eggMove**\n${eggMoveValue}`;
-				}
+        if (listTMValue) {
+          descriptionEmbed += `**TM's**\n${listTMValue}`;
+        }
 
-				if (vitaminsBuildValue) {
-					descriptionEmbed += `\n\n**Vitaminas**\n${vitaminsBuildValue}`;
-				}
+        if (listMTValue) {
+          descriptionEmbed += `\n\n**MoveTutors**\n${listMTValue}`;
+        }
 
-				if (detailBuildValue) {
-					descriptionEmbed += `\n\n**Objetivos**\n${detailBuildValue}`;
-				}
+        if (eggMoveValue) {
+          descriptionEmbed += `\n\n**eggMove**\n${eggMoveValue}`;
+        }
 
-				const avatar = interaction.user.displayAvatarURL();
-				const avatarGuild = interaction.guild.iconURL();
+        if (vitaminsBuildValue) {
+          descriptionEmbed += `\n\n**Vitaminas**\n${vitaminsBuildValue}`;
+        }
 
-				const embed = new EmbedBuilder()
-					.setColor("Random")
-					.setTitle(pokemonName)
-					.setThumbnail(avatar)
-					.setAuthor({
-						name: `Criado por: ${interaction.user.globalName}`,
-					})
-					.setFooter({
-						text: "Agradecemos profundamente por sua generosa contribuição.",
-						iconURL: avatarGuild,
-					});
+        if (detailBuildValue) {
+          descriptionEmbed += `\n\n**Objetivos**\n${detailBuildValue}`;
+        }
 
-				if (descriptionEmbed !== "") {
-					embed.setDescription(descriptionEmbed);
-				}
+        const avatarAuthor = interaction.user.displayAvatarURL();
+        const avatarGuild = interaction.guild.iconURL();
 
-				modalInteraction.reply({ embeds: [embed] });
-			});
-	},
+        const embed = new EmbedBuilder()
+          .setColor("Random")
+          .setTitle(pokemonName)
+          .setThumbnail(thumb)
+          .setAuthor({
+            name: `Criado por: ${interaction.user.globalName}`,
+            iconURL: avatarAuthor,
+          })
+          .setFooter({
+            text: "Agradecemos profundamente por sua generosa contribuição.",
+            iconURL: avatarGuild,
+          });
+
+        if (descriptionEmbed !== "") {
+          embed.setDescription(descriptionEmbed);
+        }
+
+        modalInteraction.reply({ embeds: [embed] });
+      });
+  },
 };
