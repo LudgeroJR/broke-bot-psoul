@@ -34,6 +34,7 @@ module.exports = {
     var pointBall;
     var ballName;
     var finalResult;
+    var updatedButtonRow;
 
     if (!pokemon.shiny) {
       interaction.reply({ embeds: [gameCatchEmbed], ephemeral: true });
@@ -47,6 +48,7 @@ module.exports = {
 
       const collector = choseBall.createMessageComponentCollector({
         componentType: ComponentType.Button,
+        time: 15_000,
       });
 
       collector.on("collect", async (interaction) => {
@@ -77,7 +79,7 @@ module.exports = {
         await interaction.reply({ content: resultMessage, ephemeral: true });
 
         // Desativar botões após intereção
-        const updatedButtonRow = buttonRow.components.map((button) => {
+        updatedButtonRow = buttonRow.components.map((button) => {
           button.setDisabled(true);
           return button;
         });
@@ -99,6 +101,19 @@ module.exports = {
 
         const gameChannelGlobal = client.channels.cache.get(gameChannel);
         gameChannelGlobal.send({ embeds: [shinyGlobalResultEmbed] });
+      });
+
+      collector.on("end", async (interaction) => {
+        // Desativar botões após intereção
+        updatedButtonRow = buttonRow.components.map((button) => {
+          button.setDisabled(true);
+          return button;
+        });
+
+        // Atualizar a mensagem original com os botões desativados
+        await choseBall.edit({
+          components: [{ type: 1, components: updatedButtonRow }],
+        });
       });
     }
 
