@@ -48,7 +48,7 @@ module.exports = {
 
       const collector = choseBall.createMessageComponentCollector({
         componentType: ComponentType.Button,
-        time: 15_000,
+        time: 25_000,
       });
 
       collector.on("collect", async (interaction) => {
@@ -117,9 +117,9 @@ module.exports = {
       });
     }
 
-    // usersInCooldown.push(interaction.user.id);
-    // setTimeout(() => {
-    //   usersInCooldown.shift();
-    // }, 2000);
+    usersInCooldown.push(interaction.user.id);
+    setTimeout(() => {
+      usersInCooldown.shift();
+    }, 2000);
   },
 };
