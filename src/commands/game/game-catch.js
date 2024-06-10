@@ -5,10 +5,9 @@ const Buttons = require("./../../buttons/gameCatchPokeballButtons");
 const { ComponentType } = require("discord.js");
 const TryCatchPokemon = require("../../utils/tryCatchPokemon");
 const { gameChannel } = require("./../../../config.json");
-
-const {
-  usersInCooldown,
-} = require("./../../utils/cooldown/cooldownGameCatch.json");
+const CheckCooldownRoundGameCatch = require("./../../utils/cooldown/checkCooldownRoundGameCatch");
+const RegisterUserRound = require("./../../utils/cooldown/registerUserRound");
+const UpdateRanking = require("./../../utils/ranking/updateRanking");
 
 module.exports = {
   name: "game-catch",
@@ -19,14 +18,26 @@ module.exports = {
   // deleted: Boolean,
 
   callback: async (client, interaction) => {
-    if (usersInCooldown.includes(interaction.user.id))
+    const isUserCooldownRound = await CheckCooldownRoundGameCatch(
+      interaction.user.id
+    );
+
+    if (isUserCooldownRound)
       return await interaction.reply({
         content:
-          "O cooldown deste comando é de 2 segundos para evitar spam e manter a estabilidade do bot.",
+          "# **COOLDOWN** # Você terminou as 10 rodadas. Tentativas resetam em 1 hora.",
         ephemeral: true,
       });
 
     const pokemon = await ShufflePokemon();
+
+    if (!pokemon)
+      return await interaction.reply({
+        content:
+          "# **ACABOU** # Todos pokemons foram capturados. Avise o LudgeroJR para ele gerar o Ranking para ver quem foi o campeão e resetar o jogo.",
+        ephemeral: true,
+      });
+
     const gameCatchEmbed = GameCatchEmbed(pokemon);
 
     var choseBall;
@@ -70,6 +81,10 @@ module.exports = {
         }
 
         finalResult = TryCatchPokemon();
+
+        if (pointBall >= finalResult) {
+          UpdateRanking(interaction.user, pointBall, pokemon.id);
+        }
 
         const resultMessage =
           pointBall >= finalResult
@@ -117,9 +132,6 @@ module.exports = {
       });
     }
 
-    usersInCooldown.push(interaction.user.id);
-    setTimeout(() => {
-      usersInCooldown.shift();
-    }, 2000);
+    await RegisterUserRound(interaction.user.id);
   },
 };
