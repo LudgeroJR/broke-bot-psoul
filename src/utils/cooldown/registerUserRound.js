@@ -11,7 +11,7 @@ const pathUserRound = path.join(
   "userRound.json"
 );
 
-const maxRound = 100;
+const maxRound = 25;
 
 let saveInProgress = false;
 let saveNeeded = false;

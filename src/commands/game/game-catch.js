@@ -25,7 +25,7 @@ module.exports = {
     if (isUserCooldownRound)
       return await interaction.reply({
         content:
-          "# **COOLDOWN** # Você terminou as 10 rodadas. Tentativas resetam em 1 hora.",
+          "# **COOLDOWN** # Você terminou suas 25 rodadas. Cooldown reseta em 1 hora.",
         ephemeral: true,
       });
 

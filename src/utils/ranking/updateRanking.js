@@ -72,11 +72,16 @@ module.exports = async (user, ballPoint, pokemonId) => {
   const updatePokemonList = await readJsonFile(pathPokemonList);
   let newUpdatePokemonList = updatePokemonList;
 
+  let authorName = user.globalName;
+  if (!authorName) {
+    authorName = user.username;
+  }
+
   let addPoints = 5 - ballPoint;
 
   if (!newUpdateRanking[user.id]) {
     newUpdateRanking[user.id] = {
-      userGlobalName: user.globalName,
+      userGlobalName: authorName,
       countShinyCatch: 1,
       totalPointRankig: addPoints,
       listCatchPokemon: [pokemonId],

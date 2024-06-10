@@ -7,11 +7,15 @@ module.exports = (pokemonObject, ballName, pointBall, finalResult, Author) => {
   const pokemonThumb = pokemonObject.thumb;
   var embedShinyMessageGlobal;
   const avatarAuthor = Author.displayAvatarURL();
+  let authorName = Author.globalName;
+  if (!authorName) {
+    authorName = Author.username;
+  }
 
   if (pointBall >= finalResult) {
     embedShinyMessageGlobal = new EmbedBuilder()
       .setDescription(
-        `**[${pointBall}/${finalResult}]** :white_check_mark: ${Author.globalName} capturou um Shiny ${pokemonName} usando uma ${ballName}.\n@everyone`
+        `**[${pointBall}/${finalResult}]** :white_check_mark: ${authorName} capturou um Shiny ${pokemonName} usando uma ${ballName}.`
       )
       .setAuthor({
         name: `Shiny ${pokemonName}`,
@@ -25,7 +29,7 @@ module.exports = (pokemonObject, ballName, pointBall, finalResult, Author) => {
   } else {
     embedShinyMessageGlobal = new EmbedBuilder()
       .setDescription(
-        `**[${pointBall}/${finalResult}]** :x: ${Author.globalName} falhou ao tentar capturar um Shiny ${pokemonName} usando uma ${ballName}.\n@everyone`
+        `**[${pointBall}/${finalResult}]** :x: ${authorName} falhou ao tentar capturar um Shiny ${pokemonName} usando uma ${ballName}.`
       )
       .setAuthor({
         name: `Shiny ${pokemonName}`,
