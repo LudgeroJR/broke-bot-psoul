@@ -18,34 +18,44 @@ module.exports = {
   // deleted: Boolean,
 
   callback: async (client, interaction) => {
-    const isUserCooldownRound = await CheckCooldownRoundGameCatch(
-      interaction.user.id
-    );
-
-    if (isUserCooldownRound)
-      return await interaction.reply({
-        content:
-          "# **COOLDOWN** # Você terminou suas 25 rodadas. Cooldown reseta em 1 hora.",
-        ephemeral: true,
-      });
-
-    const pokemon = await ShufflePokemon();
-
-    if (!pokemon)
-      return await interaction.reply({
-        content:
-          "# **ACABOU** # Todos pokemons foram capturados. Avise o LudgeroJR para ele gerar o Ranking para ver quem foi o campeão e resetar o jogo.",
-        ephemeral: true,
-      });
-
-    const gameCatchEmbed = GameCatchEmbed(pokemon);
-
+    var isUserCooldownRound;
+    var pokemon;
     var choseBall;
     var pointBall;
     var pointBall;
     var ballName;
     var finalResult;
     var updatedButtonRow;
+
+    try {
+      isUserCooldownRound = await CheckCooldownRoundGameCatch(
+        interaction.user.id
+      );
+
+      if (isUserCooldownRound)
+        return await interaction.reply({
+          content:
+            "**COOLDOWN** Você terminou suas 25 rodadas. Cooldown reseta na próxima hora.",
+          ephemeral: true,
+        });
+    } catch (error) {
+      console.error(`Erro ao tentar checar o cooldown do usuário\n${error}`);
+    }
+
+    try {
+      pokemon = await ShufflePokemon();
+
+      if (!pokemon)
+        return await interaction.reply({
+          content:
+            "**ACABOU** Todos pokemons foram capturados. Avise o LudgeroJR para ele gerar o Ranking para ver quem foi o campeão e resetar o jogo.",
+          ephemeral: true,
+        });
+    } catch (error) {
+      console.error(`Erro ao sortear um pokemon\n${error}`);
+    }
+
+    const gameCatchEmbed = GameCatchEmbed(pokemon);
 
     if (!pokemon.shiny) {
       interaction.reply({ embeds: [gameCatchEmbed], ephemeral: true });
@@ -79,11 +89,18 @@ module.exports = {
           pointBall = 1;
           ballName = "Premier Ball";
         }
-
-        finalResult = TryCatchPokemon();
+        try {
+          finalResult = TryCatchPokemon();
+        } catch (error) {
+          console.error(`Erro ao verificar se capturou o pokemon\n${error}`);
+        }
 
         if (pointBall >= finalResult) {
-          UpdateRanking(interaction.user, pointBall, pokemon.id);
+          try {
+            UpdateRanking(interaction.user, pointBall, pokemon);
+          } catch (error) {
+            console.error(`Erro ao atualizar o ranking\n${error}`);
+          }
         }
 
         const resultMessage =
@@ -132,6 +149,10 @@ module.exports = {
       });
     }
 
-    await RegisterUserRound(interaction.user.id);
+    try {
+      RegisterUserRound(interaction.user.id);
+    } catch (error) {
+      console.error(`Erro ao registrar a rodada do usuário\n${error}`);
+    }
   },
 };

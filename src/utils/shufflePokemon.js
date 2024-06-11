@@ -1,30 +1,10 @@
 const RNG = require("./rng");
 const axios = require("axios");
 
-const fs = require("fs").promises;
-const path = require("path");
-
-const pathPokemonList = path.join(
-  __dirname,
-  "..",
-  "..",
-  "data",
-  "pokemonlist",
-  "pokemonList.json"
-);
-
-const readJsonFile = async (filePath) => {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    const jsonData = JSON.parse(data);
-    return jsonData;
-  } catch (err) {
-    console.error("Erro ao ler ou parsear o arquivo JSON:", err);
-  }
-};
+const PokemonList = require("./../models/pokemonListModel");
 
 module.exports = async () => {
-  const pokemonList = await readJsonFile(pathPokemonList);
+  const pokemonList = await PokemonList.findOne({});
   const idPokemon = pokemonList.idPokemon;
 
   if (idPokemon.length == 0) {

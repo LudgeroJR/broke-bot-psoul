@@ -1,100 +1,48 @@
-const fs = require("fs").promises;
-const path = require("path");
+const GameRanking = require("../../models/gameRankingModel");
+const PokemonList = require("../../models/pokemonListModel");
 
-const pathGameRanking = path.join(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "data",
-  "ranking",
-  "gameRanking.json"
-);
+module.exports = async (author, ballPoint, pokemonObject) => {
+  const pokemonId = pokemonObject.id;
+  const pokemonName = pokemonObject.name;
 
-const pathPokemonList = path.join(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "data",
-  "pokemonlist",
-  "pokemonList.json"
-);
-
-let saveInProgress = false;
-let saveNeeded = false;
-
-const saveJson = async (rankingData, pokeListData) => {
-  if (saveInProgress) {
-    saveNeeded = true;
-    return;
-  }
-
-  saveInProgress = true;
-
-  try {
-    await fs.writeFile(pathGameRanking, JSON.stringify(rankingData, null, 2));
-    await fs.writeFile(pathPokemonList, JSON.stringify(pokeListData, null, 2));
-  } catch (error) {
-    console.error("Erro ao salvar o arquivo JSON:", error);
-  } finally {
-    saveInProgress = false;
-    if (saveNeeded) {
-      saveNeeded = false;
-      saveJson(rankingData, pokeListData);
-    }
-  }
-};
-
-const debounceSave = (() => {
-  let timer;
-  return (rankingData, pokeListData) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      saveJson(rankingData, pokeListData);
-    }, 1000);
+  let query = {
+    authorId: author.id,
   };
-})();
+  let gameRanking = await GameRanking.findOne(query);
 
-const readJsonFile = async (filePath) => {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    const jsonData = JSON.parse(data);
-    return jsonData;
-  } catch (err) {
-    console.error("Erro ao ler ou parsear o arquivo JSON:", err);
-  }
-};
-
-module.exports = async (user, ballPoint, pokemonId) => {
-  const updateRanking = await readJsonFile(pathGameRanking);
-  let newUpdateRanking = updateRanking;
-  const updatePokemonList = await readJsonFile(pathPokemonList);
-  let newUpdatePokemonList = updatePokemonList;
-
-  let authorName = user.globalName;
+  let authorName = author.globalName;
   if (!authorName) {
-    authorName = user.username;
+    authorName = author.username;
   }
 
   let addPoints = 5 - ballPoint;
 
-  if (!newUpdateRanking[user.id]) {
-    newUpdateRanking[user.id] = {
+  if (!gameRanking) {
+    const newGameRanking = new GameRanking({
+      authorId: author.id,
       userGlobalName: authorName,
       countShinyCatch: 1,
       totalPointRankig: addPoints,
-      listCatchPokemon: [pokemonId],
-    };
+      listCatchPokemon: [pokemonName],
+    });
+
+    await newGameRanking.save().catch((e) => {
+      console.error(`Erro ao gravar dados no banco: ${e}`);
+      return;
+    });
   } else {
-    newUpdateRanking[user.id].countShinyCatch++;
-    newUpdateRanking[user.id].totalPointRankig += addPoints;
-    newUpdateRanking[user.id].listCatchPokemon.push(pokemonId);
+    gameRanking.countShinyCatch++;
+    gameRanking.totalPointRankig += addPoints;
+    gameRanking.listCatchPokemon.push(pokemonName);
+
+    await gameRanking.save().catch((e) => {
+      console.error(`Erro ao gravar dados no banco: ${e}`);
+      return;
+    });
   }
 
-  newUpdatePokemonList.idPokemon = newUpdatePokemonList.idPokemon.filter(
-    (item) => item !== pokemonId
-  );
-
-  debounceSave(newUpdateRanking, newUpdatePokemonList);
+  const update = {
+    $pull: { idPokemon: pokemonId },
+  };
+  await PokemonList.updateOne({}, update);
 };

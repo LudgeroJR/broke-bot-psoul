@@ -10,7 +10,12 @@ module.exports = {
   // deleted: Boolean,
 
   callback: async (client, interaction) => {
-    const gameRankingEmbed = await GameRankingEmbed();
+    var gameRankingEmbed;
+    try {
+      gameRankingEmbed = await GameRankingEmbed();
+    } catch (error) {
+      console.error(`Erro ao gerar o embed do ranking\n${error}`);
+    }
 
     interaction.reply({
       content: "Ranking enviado ao canal #Ranking",

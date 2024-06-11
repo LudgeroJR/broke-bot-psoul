@@ -1,40 +1,26 @@
-const fs = require("fs").promises;
-const path = require("path");
-
-const pathUserRound = path.join(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "data",
-  "cooldown",
-  "userRound.json"
-);
-
-const readJsonFile = async (filePath) => {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    const jsonData = JSON.parse(data);
-    return jsonData;
-  } catch (err) {
-    console.error("Erro ao ler ou parsear o arquivo JSON:", err);
-  }
-};
+const UserRound = require("../../models/userRoundModel");
 
 module.exports = async (userId) => {
-  const cooldownUserRound = await readJsonFile(pathUserRound);
+  const query = {
+    authorId: userId,
+  };
 
-  const currentTime = new Date();
-  // Atualiza registro existente ou adiciona novo
-  if (!cooldownUserRound[userId]) {
-    return false;
-  } else {
-    const userCooldownTime = new Date(cooldownUserRound[userId].cooldown);
+  try {
+    const cooldownUserRound = await UserRound.findOne(query);
 
-    if (userCooldownTime > currentTime) {
-      return true;
-    } else {
+    const currentTime = new Date();
+    if (!cooldownUserRound) {
       return false;
+    } else {
+      const userCooldownTime = new Date(cooldownUserRound.cooldown);
+
+      if (userCooldownTime > currentTime) {
+        return true;
+      } else {
+        return false;
+      }
     }
+  } catch (error) {
+    console.log(`Erro: ${error}`);
   }
 };

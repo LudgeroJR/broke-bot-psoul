@@ -1,45 +1,18 @@
 const { EmbedBuilder } = require("discord.js");
 
-const fs = require("fs").promises;
-const path = require("path");
-
-const pathGameRanking = path.join(
-  __dirname,
-  "..",
-  "..",
-  "data",
-  "ranking",
-  "gameRanking.json"
-);
-const pathPokemonList = path.join(
-  __dirname,
-  "..",
-  "..",
-  "data",
-  "pokemonlist",
-  "pokemonList.json"
-);
-
-const readJsonFile = async (filePath) => {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    const jsonData = JSON.parse(data);
-    return jsonData;
-  } catch (err) {
-    console.error("Erro ao ler ou parsear o arquivo JSON:", err);
-  }
-};
+const GameRanking = require("./../models/gameRankingModel");
+const PokemonList = require("./../models/pokemonListModel");
 
 module.exports = async () => {
-  const allRanking = await readJsonFile(pathGameRanking);
-  const pokemonList = await readJsonFile(pathPokemonList);
+  const gameRanking = await GameRanking.find({});
+  const pokemonList = await PokemonList.findOne({});
   const idPokemon = pokemonList.idPokemon;
 
   // Ordenar a lista de Ranking por pontuação
-  const pokemonStock = idPokemon.length + 1;
+  const pokemonStock = idPokemon.length;
   const footerMsg = `Use o comando /game-catch e conquiste o seu lugar entre os melhores capturadores de shinys. Pokemons restantes: ${pokemonStock}`;
 
-  const sortedData = Object.values(allRanking)
+  const sortedData = Object.values(gameRanking)
     .map(({ userGlobalName, countShinyCatch, totalPointRankig }) => ({
       userGlobalName,
       countShinyCatch,
@@ -56,14 +29,21 @@ module.exports = async () => {
       text: footerMsg,
     });
 
-  if (sortedData.length == 0) {
+  var rankingLength;
+  if (sortedData.length > 21) {
+    rankingLength = 21;
+  } else {
+    rankingLength = sortedData.length;
+  }
+
+  if (rankingLength == 0) {
     rankingEmbed.addFields({
       name: "Seja o primeiro ....",
       value: "Ainda não há registros de Capturas realizadas por treinadores.",
     });
   }
 
-  if (sortedData.length > 0) {
+  if (rankingLength > 0) {
     rankingEmbed.addFields({
       name: ":first_place:",
       value: `**Pontos**: ${sortedData[0].totalPointRankig}\n**Nome**: ${sortedData[0].userGlobalName}\n**Total Shiny**: ${sortedData[0].countShinyCatch}`,
@@ -71,14 +51,14 @@ module.exports = async () => {
     });
   }
 
-  if (sortedData.length > 1) {
+  if (rankingLength > 1) {
     rankingEmbed.addFields({
       name: ":second_place:",
       value: `**Pontos**: ${sortedData[1].totalPointRankig}\n**Nome**: ${sortedData[1].userGlobalName}\n**Total Shiny**: ${sortedData[1].countShinyCatch}`,
       inline: true,
     });
   }
-  if (sortedData.length > 2) {
+  if (rankingLength > 2) {
     rankingEmbed.addFields({
       name: ":third_place:",
       value: `**Pontos**: ${sortedData[2].totalPointRankig}\n**Nome**: ${sortedData[2].userGlobalName}\n**Total Shiny**: ${sortedData[2].countShinyCatch}`,
@@ -86,7 +66,7 @@ module.exports = async () => {
     });
   }
 
-  if (sortedData.length > 3) {
+  if (rankingLength > 3) {
     rankingEmbed.addFields(
       { name: "\u200B", value: "\u200B" },
       {
@@ -95,7 +75,8 @@ module.exports = async () => {
       }
     );
     let position;
-    for (let i = 3; i < sortedData.length; i++) {
+
+    for (let i = 3; i < rankingLength; i++) {
       position = i + 1;
       rankingEmbed.addFields({
         name: `${position}º`,
