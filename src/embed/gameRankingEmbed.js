@@ -76,7 +76,7 @@ module.exports = async () => {
     );
     let position;
 
-    for (let i = 3; i <= rankingLength; i++) {
+    for (let i = 3; i < rankingLength; i++) {
       position = i + 1;
       rankingEmbed.addFields({
         name: `${position}º`,
