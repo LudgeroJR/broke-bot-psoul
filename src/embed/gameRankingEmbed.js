@@ -1,10 +1,9 @@
 const { EmbedBuilder } = require("discord.js");
 
-const GameRanking = require("./../models/gameRankingModel");
 const PokemonList = require("./../models/pokemonListModel");
+const SortedRanking = require("./../utils/ranking/sortedRanking");
 
 module.exports = async () => {
-  const gameRanking = await GameRanking.find({});
   const pokemonList = await PokemonList.findOne({});
   const idPokemon = pokemonList.idPokemon;
 
@@ -12,13 +11,7 @@ module.exports = async () => {
   const pokemonStock = idPokemon.length;
   const footerMsg = `Use o comando /game-catch e conquiste o seu lugar entre os melhores capturadores de shinys. Pokemons restantes: ${pokemonStock}`;
 
-  const sortedData = Object.values(gameRanking)
-    .map(({ userGlobalName, countShinyCatch, totalPointRankig }) => ({
-      userGlobalName,
-      countShinyCatch,
-      totalPointRankig,
-    }))
-    .sort((a, b) => b.totalPointRankig - a.totalPointRankig);
+  const sortedData = await SortedRanking();
 
   const rankingEmbed = new EmbedBuilder()
     .setTitle("Ranking Global - Game-Catch")

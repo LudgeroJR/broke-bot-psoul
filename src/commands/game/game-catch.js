@@ -4,10 +4,12 @@ const ShinyGlobalResultEmbed = require("./../../embed/shinyGlobalResultEmbed");
 const Buttons = require("./../../buttons/gameCatchPokeballButtons");
 const { ComponentType } = require("discord.js");
 const TryCatchPokemon = require("../../utils/tryCatchPokemon");
-const { gameChannel } = require("./../../../config.json");
+const { gameChannel, gameRankingChannel } = require("./../../../config.json");
 const CheckCooldownRoundGameCatch = require("./../../utils/cooldown/checkCooldownRoundGameCatch");
 const RegisterUserRound = require("./../../utils/cooldown/registerUserRound");
 const UpdateRanking = require("./../../utils/ranking/updateRanking");
+const SortedRanking = require("./../../utils/ranking/sortedRanking");
+const GameRankingEmbed = require("./../../embed/gameRankingEmbed");
 
 module.exports = {
   name: "game-catch",
@@ -97,7 +99,34 @@ module.exports = {
 
         if (pointBall >= finalResult) {
           try {
+            const currentRanking = await SortedRanking();
+            let currentRankingList = [];
+            for (let i = 0; i < currentRanking.length; i++) {
+              currentRankingList[i] = currentRanking[i].userGlobalName;
+            }
             UpdateRanking(interaction.user, pointBall, pokemon);
+            const updatedRanking = await SortedRanking();
+            let updatedRankingList = [];
+            for (let i = 0; i < updatedRanking.length; i++) {
+              updatedRankingList[i] = updatedRanking[i].userGlobalName;
+            }
+
+            if (updatedRankingList !== currentRankingList) {
+              try {
+                const gameRankingEmbed = await GameRankingEmbed();
+                gameRankingEmbed.setTitle(
+                  "Ranking Global - Sentimos uma mudança na força"
+                );
+                gameRankingEmbed.setDescription(
+                  "Este ranking foi gerado automaticamente devido a uma captura que alterou a classificação.\nLembre-se: este ranking foi criado no meio de uma jogada, então o posicionamento é atual, mas a pontuação pode variar."
+                );
+                const rankingChannel =
+                  client.channels.cache.get(gameRankingChannel);
+                rankingChannel.send({ embeds: [gameRankingEmbed] });
+              } catch (error) {
+                console.error(`Erro ao gerar o embed do ranking\n${error}`);
+              }
+            }
           } catch (error) {
             console.error(`Erro ao atualizar o ranking\n${error}`);
           }
