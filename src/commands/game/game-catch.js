@@ -107,11 +107,19 @@ module.exports = {
             UpdateRanking(interaction.user, pointBall, pokemon);
             const updatedRanking = await SortedRanking();
             let updatedRankingList = [];
-            for (let i = 0; i < updatedRanking.length; i++) {
-              updatedRankingList[i] = updatedRanking[i].userGlobalName;
+            let arrayAreEqual = true;
+            if (updatedRanking.length == currentRanking.length) {
+              for (let i = 0; i < updatedRanking.length; i++) {
+                updatedRankingList[i] = updatedRanking[i].userGlobalName;
+                if (updatedRankingList[i] !== currentRankingList[i]) {
+                  arrayAreEqual = false;
+                }
+              }
+            } else {
+              arrayAreEqual = false;
             }
 
-            if (updatedRankingList !== currentRankingList) {
+            if (!arrayAreEqual) {
               try {
                 const gameRankingEmbed = await GameRankingEmbed();
                 gameRankingEmbed.setTitle(
