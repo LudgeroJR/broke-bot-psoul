@@ -99,42 +99,8 @@ module.exports = {
 
         if (pointBall >= finalResult) {
           try {
-            // Gera o ranking atual em ordem de pontos
-            const currentRanking = await SortedRanking();
-            // Gera a lista somente com o nome do player
-            const currentRankingList = currentRanking.map(
-              (rank) => rank.userGlobalName
-            );
             // Atualiza as informações do Ranking após uma captura bem sucedida
             UpdateRanking(interaction.user, pointBall, pokemon);
-            // Gera o ranking atualizado em ordem de pontos
-            const updatedRanking = await SortedRanking();
-            // Gera a lista somente com o nome do player
-            const updatedRankingList = updatedRanking.map(
-              (rank) => rank.userGlobalName
-            );
-            // Verifica se a ordem de nomes de players mudou.
-            const arrayAreEqual =
-              JSON.stringify(currentRankingList) ===
-              JSON.stringify(updatedRankingList);
-
-            // Envia um Ranking no canal de Ranking se houve alteração nas posições
-            if (!arrayAreEqual) {
-              try {
-                const gameRankingEmbed = await GameRankingEmbed();
-                gameRankingEmbed.setTitle(
-                  "Ranking Global - Sentimos uma mudança na força"
-                );
-                gameRankingEmbed.setDescription(
-                  "Este ranking foi gerado automaticamente devido a uma captura que alterou a classificação.\nLembre-se: este ranking foi criado no meio de uma jogada, então o posicionamento é atual, mas a pontuação pode variar."
-                );
-                const rankingChannel =
-                  client.channels.cache.get(gameRankingChannel);
-                rankingChannel.send({ embeds: [gameRankingEmbed] });
-              } catch (error) {
-                console.error(`Erro ao gerar o embed do ranking\n${error}`);
-              }
-            }
           } catch (error) {
             console.error(`Erro ao atualizar o ranking\n${error}`);
           }
