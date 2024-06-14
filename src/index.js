@@ -3,6 +3,7 @@ const { Client, IntentsBitField } = require("discord.js");
 const mongoose = require("mongoose");
 const eventHandler = require("./handlers/eventHandler");
 const SendCurrentRanking = require("./utils/ranking/sendCurrentRanking");
+const ResetUserRound = require("./utils/cooldown/resetUserRound");
 
 const client = new Client({
   intents: [
@@ -26,10 +27,14 @@ const client = new Client({
       now.getSeconds() * 1000 -
       now.getMilliseconds();
 
-    // Aguarda até a próxima hora cheia e então executa a função a cada hora
+    // Reset de rodadas e envio de Ranking a cada hora
     setTimeout(() => {
+      ResetUserRound();
       SendCurrentRanking(client);
-      setInterval(() => SendCurrentRanking(client), 60 * 60 * 1000);
+      setInterval(() => {
+        ResetUserRound();
+        SendCurrentRanking(client);
+      }, 60 * 60 * 1000);
     }, delayUntilNextHour);
 
     eventHandler(client);
