@@ -17,14 +17,13 @@ module.exports = {
   // devOnly: true,
   memberOnly: true,
   // testOnly: true,
-  // deleted: Boolean,
+  deleted: Boolean,
 
   callback: async (client, interaction) => {
     var isUserCooldownRound;
     var pokemon;
     var choseBall;
-    var pointBall;
-    var pointBall;
+    var rateCapturaBall;
     var ballName;
     var finalResult;
     var updatedButtonRow;
@@ -37,7 +36,7 @@ module.exports = {
       if (isUserCooldownRound)
         return await interaction.reply({
           content:
-            "**COOLDOWN** Você terminou suas 25 rodadas. Cooldown reseta na próxima hora.",
+            "**COOLDOWN** Você terminou suas 20 rodadas. Cooldown reseta na próxima hora.",
           ephemeral: true,
         });
     } catch (error) {
@@ -76,19 +75,19 @@ module.exports = {
 
       collector.on("collect", async (interaction) => {
         if (interaction.customId === `BallClan-${interaction.user.id}`) {
-          pointBall = 4;
+          rateCapturaBall = 4;
           ballName = "Ball de Clan";
         }
         if (interaction.customId === `UltraBall-${interaction.user.id}`) {
-          pointBall = 3;
+          rateCapturaBall = 3;
           ballName = "Ultra Ball";
         }
         if (interaction.customId === `GreatBall-${interaction.user.id}`) {
-          pointBall = 2;
+          rateCapturaBall = 2;
           ballName = "Great Ball";
         }
         if (interaction.customId === `PremierBall-${interaction.user.id}`) {
-          pointBall = 1;
+          rateCapturaBall = 1;
           ballName = "Premier Ball";
         }
         try {
@@ -97,19 +96,19 @@ module.exports = {
           console.error(`Erro ao verificar se capturou o pokemon\n${error}`);
         }
 
-        if (pointBall >= finalResult) {
+        if (rateCapturaBall >= finalResult) {
           try {
             // Atualiza as informações do Ranking após uma captura bem sucedida
-            UpdateRanking(interaction.user, pointBall, pokemon);
+            UpdateRanking(interaction.user, rateCapturaBall, pokemon);
           } catch (error) {
             console.error(`Erro ao atualizar o ranking\n${error}`);
           }
         }
 
         const resultMessage =
-          pointBall >= finalResult
-            ? `[${pointBall}/${finalResult}] - :star2: **GOTCHA** :star2: Você capturou o ${gameCatchEmbed.data.title} usando uma ${ballName}. Parabéns!!!`
-            : `[${pointBall}/${finalResult}] - :weary: **QUE AZAR** :weary: Você não conseguiu capturar o ${gameCatchEmbed.data.title}. Não desanime, o próximo vem!!!`;
+          rateCapturaBall >= finalResult
+            ? `[${rateCapturaBall}/${finalResult}] - :star2: **GOTCHA** :star2: Você capturou o ${gameCatchEmbed.data.title} usando uma ${ballName}. Parabéns!!!`
+            : `[${rateCapturaBall}/${finalResult}] - :weary: **OUNCH** :weary: Sua pokebola quebrou ao tentar capturar o ${gameCatchEmbed.data.title}.`;
 
         await interaction.reply({ content: resultMessage, ephemeral: true });
 
@@ -129,7 +128,7 @@ module.exports = {
         const shinyGlobalResultEmbed = ShinyGlobalResultEmbed(
           pokemon,
           ballName,
-          pointBall,
+          rateCapturaBall,
           finalResult,
           interaction.user
         );

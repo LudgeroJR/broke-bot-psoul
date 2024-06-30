@@ -1,7 +1,7 @@
 const UserRound = require("../../models/userRoundModel");
 
 module.exports = async (userID) => {
-  const maxRound = 25;
+  const maxRound = 20;
   const query = {
     authorId: userID,
   };

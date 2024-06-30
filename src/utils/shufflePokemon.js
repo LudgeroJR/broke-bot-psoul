@@ -26,7 +26,7 @@ module.exports = async () => {
 
   pokemonName = response.data.name;
 
-  const shinyNumbers = [2, 27, 51, 77, 98];
+  const shinyNumbers = [4, 33, 76, 92];
   const rngShiny = rng.getRandomInt(1, 100);
   if (shinyNumbers.includes(rngShiny)) {
     isShiny = true;
