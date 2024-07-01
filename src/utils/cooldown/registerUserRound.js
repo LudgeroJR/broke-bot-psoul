@@ -11,7 +11,7 @@ module.exports = async (userID) => {
   if (!cooldownUserRound) {
     const newCooldownUserRound = new UserRound({
       authorId: userID,
-      countRound: 1,
+      countRound: 2,
       cooldown: null,
     });
 
