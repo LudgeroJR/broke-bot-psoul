@@ -3,6 +3,12 @@ const axios = require("axios");
 
 const PokemonList = require("./../models/pokemonListModel");
 
+function isShinyFunction() {
+  // Define a porcentagem da chance de aparição do shiny
+  const rateShiny = 10;
+  return Math.random() <= rateShiny / 100;
+}
+
 module.exports = async () => {
   const pokemonList = await PokemonList.findOne({});
   const idPokemon = pokemonList.idPokemon;
@@ -26,7 +32,7 @@ module.exports = async () => {
 
   pokemonName = response.data.name;
 
-  const shinyNumbers = [4, 33, 76, 92];
+  const shinyNumbers = [4, 17, 21, 33, 50, 76, 85, 92];
   const rngShiny = rng.getRandomInt(1, 100);
   if (shinyNumbers.includes(rngShiny)) {
     isShiny = true;
