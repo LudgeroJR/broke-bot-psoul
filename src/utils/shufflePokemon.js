@@ -5,7 +5,7 @@ const PokemonList = require("./../models/pokemonListModel");
 
 function isShinyFunction() {
   // Define a porcentagem da chance de aparição do shiny
-  const rateShiny = 10;
+  const rateShiny = 5;
   return Math.random() <= rateShiny / 100;
 }
 
@@ -32,9 +32,17 @@ module.exports = async () => {
 
   pokemonName = response.data.name;
 
-  const shinyNumbers = [4, 17, 21, 33, 50, 76, 85, 92];
-  const rngShiny = rng.getRandomInt(1, 100);
-  if (shinyNumbers.includes(rngShiny)) {
+  // const shinyNumbers = [4, 17, 21, 33, 50, 76, 85, 92];
+  // const rngShiny = rng.getRandomInt(1, 100);
+  // if (shinyNumbers.includes(rngShiny)) {
+  //   isShiny = true;
+  //   pokemonThumb = response.data.sprites.front_shiny;
+  // } else {
+  //   isShiny = false;
+  //   pokemonThumb = response.data.sprites.front_default;
+  // }
+
+  if (isShinyFunction()) {
     isShiny = true;
     pokemonThumb = response.data.sprites.front_shiny;
   } else {
