@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const _ = require("lodash");
-const UserRound = require("../../models/userRoundModel");
+const UserRound = require("./../models/userRoundModel");
 
 module.exports = async (userId, pokemonObject) => {
   //const pokemonId = pokemonObject.id;
