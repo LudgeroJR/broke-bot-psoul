@@ -4,12 +4,10 @@ const ShinyGlobalResultEmbed = require("./../../embed/shinyGlobalResultEmbed");
 const Buttons = require("./../../buttons/gameCatchPokeballButtons");
 const { ComponentType } = require("discord.js");
 const TryCatchPokemon = require("../../utils/tryCatchPokemon");
-const { gameChannel, gameRankingChannel } = require("./../../../config.json");
+const { gameChannel } = require("./../../../config.json");
 const CheckCooldownRoundGameCatch = require("./../../utils/cooldown/checkCooldownRoundGameCatch");
 const RegisterUserRound = require("./../../utils/cooldown/registerUserRound");
 const UpdateRanking = require("./../../utils/ranking/updateRanking");
-const SortedRanking = require("./../../utils/ranking/sortedRanking");
-const GameRankingEmbed = require("./../../embed/gameRankingEmbed");
 
 module.exports = {
   name: "game-catch",
@@ -17,7 +15,7 @@ module.exports = {
   // devOnly: true,
   memberOnly: true,
   // testOnly: true,
-  // deleted: Boolean,
+  deleted: Boolean,
 
   callback: async (client, interaction) => {
     var isUserCooldownRound;
@@ -36,7 +34,7 @@ module.exports = {
       if (isUserCooldownRound)
         return await interaction.reply({
           content:
-            "**COOLDOWN** Você terminou suas 20 rodadas. Cooldown reseta na próxima hora.",
+            "Rodadas finalizadas. Você receberá mais 20 na próxima hora.",
           ephemeral: true,
         });
     } catch (error) {
@@ -49,14 +47,14 @@ module.exports = {
       if (!pokemon)
         return await interaction.reply({
           content:
-            "**ACABOU** Todos pokemons foram capturados. Avise o LudgeroJR para ele gerar o Ranking para ver quem foi o campeão e resetar o jogo.",
+            "**ACABOU** Todos pokemons foram capturados. Aguarde até o anúncio do campeão e do início da próxima rodada.",
           ephemeral: true,
         });
     } catch (error) {
       console.error(`Erro ao sortear um pokemon\n${error}`);
     }
 
-    const gameCatchEmbed = GameCatchEmbed(pokemon);
+    const gameCatchEmbed = GameCatchEmbed(interaction.user.id, pokemon);
 
     if (!pokemon.shiny) {
       interaction.reply({ embeds: [gameCatchEmbed], ephemeral: true });

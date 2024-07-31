@@ -1,7 +1,6 @@
 const UserRound = require("../../models/userRoundModel");
 
 module.exports = async (userID) => {
-  const maxRound = 20;
   const query = {
     authorId: userID,
   };
@@ -11,7 +10,7 @@ module.exports = async (userID) => {
   if (!cooldownUserRound) {
     const newCooldownUserRound = new UserRound({
       authorId: userID,
-      countRound: 2,
+      countRound: 19,
       cooldown: null,
     });
 
@@ -22,15 +21,14 @@ module.exports = async (userID) => {
     return;
   }
 
-  if (cooldownUserRound.countRound < maxRound) {
-    cooldownUserRound.countRound++;
+  if (cooldownUserRound.countRound > 0) {
+    cooldownUserRound.countRound--;
   } else {
     const newCooldownTime = new Date();
     newCooldownTime.setHours(newCooldownTime.getHours() + 1);
     newCooldownTime.setMinutes(0);
     newCooldownTime.setSeconds(0);
     newCooldownTime.setMilliseconds(0);
-    cooldownUserRound.countRound = 1;
     cooldownUserRound.cooldown = newCooldownTime.toISOString();
   }
 

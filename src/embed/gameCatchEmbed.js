@@ -1,7 +1,8 @@
 const { EmbedBuilder } = require("discord.js");
 const _ = require("lodash");
+const UserRound = require("../../models/userRoundModel");
 
-module.exports = (pokemonObject) => {
+module.exports = async (userId, pokemonObject) => {
   //const pokemonId = pokemonObject.id;
   const pokemonName = _.startCase(_.toLower(pokemonObject.name));
   const pokemonThumb = pokemonObject.thumb;
@@ -9,6 +10,14 @@ module.exports = (pokemonObject) => {
   var embed;
 
   if (!isShiny) {
+    const query = {
+      authorId: userId,
+    };
+
+    let roundLeft = await UserRound.findOne({ query });
+
+    const footerMsg = `Continue tentando até encontrar um Pokemon Shiny. Rodadas Restantes: ${roundLeft}`;
+
     embed = new EmbedBuilder()
       .setTitle(`${pokemonName}`)
       .setDescription(
@@ -16,7 +25,7 @@ module.exports = (pokemonObject) => {
       )
       .setThumbnail(pokemonThumb)
       .setFooter({
-        text: "Continue tentando até encontrar o raríssimo Pokemon Shiny. Não desista.",
+        text: footerMsg,
       });
   } else {
     embed = new EmbedBuilder()
