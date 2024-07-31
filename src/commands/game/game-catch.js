@@ -27,6 +27,12 @@ module.exports = {
     var updatedButtonRow;
 
     try {
+      await RegisterUserRound(interaction.user.id);
+    } catch (error) {
+      console.error(`Erro ao registrar a rodada do usuário\n${error}`);
+    }
+
+    try {
       isUserCooldownRound = await CheckCooldownRoundGameCatch(
         interaction.user.id
       );
@@ -54,7 +60,7 @@ module.exports = {
       console.error(`Erro ao sortear um pokemon\n${error}`);
     }
 
-    const gameCatchEmbed = GameCatchEmbed(interaction.user.id, pokemon);
+    const gameCatchEmbed = await GameCatchEmbed(interaction.user.id, pokemon);
 
     if (!pokemon.shiny) {
       interaction.reply({ embeds: [gameCatchEmbed], ephemeral: true });
@@ -147,12 +153,6 @@ module.exports = {
           components: [{ type: 1, components: updatedButtonRow }],
         });
       });
-    }
-
-    try {
-      RegisterUserRound(interaction.user.id);
-    } catch (error) {
-      console.error(`Erro ao registrar a rodada do usuário\n${error}`);
     }
   },
 };

@@ -5,7 +5,7 @@ const PokemonList = require("./../models/pokemonListModel");
 
 function isShinyFunction() {
   // Define a porcentagem da chance de aparição do shiny
-  const rateShiny = 15;
+  const rateShiny = 5;
   return Math.random() <= rateShiny / 100;
 }
 

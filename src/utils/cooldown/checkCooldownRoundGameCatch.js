@@ -9,16 +9,13 @@ module.exports = async (userId) => {
     const cooldownUserRound = await UserRound.findOne(query);
 
     const currentTime = new Date();
-    if (!cooldownUserRound) {
-      return false;
-    } else {
-      const userCooldownTime = new Date(cooldownUserRound.cooldown);
 
-      if (userCooldownTime > currentTime) {
-        return true;
-      } else {
-        return false;
-      }
+    const userCooldownTime = new Date(cooldownUserRound.cooldown);
+
+    if (userCooldownTime >= currentTime) {
+      return true;
+    } else {
+      return false;
     }
   } catch (error) {
     console.log(`Erro: ${error}`);

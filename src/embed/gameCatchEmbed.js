@@ -14,7 +14,8 @@ module.exports = async (userId, pokemonObject) => {
       authorId: userId,
     };
 
-    let roundLeft = await UserRound.findOne({ query });
+    const userRoundData = await UserRound.findOne(query);
+    const roundLeft = userRoundData.countRound;
 
     const footerMsg = `Continue tentando até encontrar um Pokemon Shiny. Rodadas Restantes: ${roundLeft}`;
 

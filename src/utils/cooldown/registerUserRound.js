@@ -8,10 +8,16 @@ module.exports = async (userID) => {
   let cooldownUserRound = await UserRound.findOne(query);
 
   if (!cooldownUserRound) {
+    let newCooldownTime = new Date();
+    newCooldownTime.setHours(newCooldownTime.getHours());
+    newCooldownTime.setMinutes(0);
+    newCooldownTime.setSeconds(0);
+    newCooldownTime.setMilliseconds(0);
+
     const newCooldownUserRound = new UserRound({
       authorId: userID,
       countRound: 19,
-      cooldown: null,
+      cooldown: newCooldownTime.toISOString(),
     });
 
     await newCooldownUserRound.save().catch((e) => {
@@ -24,12 +30,12 @@ module.exports = async (userID) => {
   if (cooldownUserRound.countRound > 0) {
     cooldownUserRound.countRound--;
   } else {
-    const newCooldownTime = new Date();
-    newCooldownTime.setHours(newCooldownTime.getHours() + 1);
-    newCooldownTime.setMinutes(0);
-    newCooldownTime.setSeconds(0);
-    newCooldownTime.setMilliseconds(0);
-    cooldownUserRound.cooldown = newCooldownTime.toISOString();
+    let updateCooldownTime = new Date();
+    updateCooldownTime.setHours(updateCooldownTime.getHours() + 1);
+    updateCooldownTime.setMinutes(0);
+    updateCooldownTime.setSeconds(0);
+    updateCooldownTime.setMilliseconds(0);
+    cooldownUserRound.cooldown = updateCooldownTime.toISOString();
   }
 
   await cooldownUserRound.save().catch((e) => {

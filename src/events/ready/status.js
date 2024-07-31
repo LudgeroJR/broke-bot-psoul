@@ -1,10 +1,10 @@
-const { ActivityType } = require('discord.js');
+const { ActivityType } = require("discord.js");
 
 module.exports = (client) => {
-    const status = {
-        name: 'Psoul',
-        type: ActivityType.Game,
-    }
-
-    client.user.setActivity(status);
+  const status = {
+    name: "Comandos: Broke-info / Game-Catch",
+    type: ActivityType.Custom,
   };
+
+  client.user.setActivity(status);
+};

@@ -9,12 +9,12 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
   const ultraBallPoint = 4;
   const greatBallPoint = 6;
   const premierBallPoint = 12;
-  const pokemonsLendarios = [
-    144, 145, 146, 150, 151, 244, 245, 243, 250, 249, 251, 377, 378, 379, 486,
-    380, 381, 383, 382, 384, 385, 386, 480, 481, 482, 483, 484, 487, 488, 491,
-    490, 489, 485, 492, 493, 494, 638, 639, 640, 647, 641, 642, 645, 644, 643,
-    646, 648, 649, 716, 717, 718, 719, 720, 721, 801,
-  ];
+  // const pokemonsLendarios = [
+  //   144, 145, 146, 150, 151, 244, 245, 243, 250, 249, 251, 377, 378, 379, 486,
+  //   380, 381, 383, 382, 384, 385, 386, 480, 481, 482, 483, 484, 487, 488, 491,
+  //   490, 489, 485, 492, 493, 494, 638, 639, 640, 647, 641, 642, 645, 644, 643,
+  //   646, 648, 649, 716, 717, 718, 719, 720, 721, 801,
+  // ];
 
   let query = {
     authorId: author.id,
@@ -43,9 +43,9 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
       break;
   }
 
-  if (pokemonsLendarios.includes(pokemonId)) {
-    addPoints *= 2;
-  }
+  // if (pokemonsLendarios.includes(pokemonId)) {
+  //   addPoints *= 2;
+  // }
 
   if (!gameRanking) {
     const newGameRanking = new GameRanking({
