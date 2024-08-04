@@ -33,7 +33,7 @@ const client = new Client({
       SendCurrentRanking(client);
       setInterval(() => {
         ResetUserRound();
-        //SendCurrentRanking(client);
+        SendCurrentRanking(client);
       }, 60 * 60 * 1000);
     }, delayUntilNextHour);
 
