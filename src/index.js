@@ -28,14 +28,14 @@ const client = new Client({
       now.getMilliseconds();
 
     // Reset de rodadas e envio de Ranking a cada hora
-    setTimeout(() => {
-      ResetUserRound();
-      SendCurrentRanking(client);
-      setInterval(() => {
-        ResetUserRound();
-        SendCurrentRanking(client);
-      }, 60 * 60 * 1000);
-    }, delayUntilNextHour);
+    // setTimeout(() => {
+    //   ResetUserRound();
+    //   SendCurrentRanking(client);
+    //   setInterval(() => {
+    //     ResetUserRound();
+    //     SendCurrentRanking(client);
+    //   }, 60 * 60 * 1000);
+    // }, delayUntilNextHour);
 
     eventHandler(client);
     client.login(process.env.TOKEN);
