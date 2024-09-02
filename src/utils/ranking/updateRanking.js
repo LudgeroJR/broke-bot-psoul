@@ -71,8 +71,11 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
     });
   }
 
-  const update = {
-    $pull: { idPokemon: pokemonId },
-  };
-  await PokemonList.updateOne({}, update);
+  // Remove pokemon capturado da lista de pokemons disponíveis. Apenas se capturado por Premier ou GreatBall
+  if (rateCapturaBall < 3) {
+    const update = {
+      $pull: { idPokemon: pokemonId },
+    };
+    await PokemonList.updateOne({}, update);
+  }
 };
