@@ -4,7 +4,7 @@
   "brokeChannel": "1186360617167241256",
   "brokeCommands": ["broke-add", "broke-info", "broke-delete", "broke-update"],
   "buildChannel": "1195412334022246460",
-  "buildCommands": ["build"],
+  "buildCommands": ["build", "skill"],
   "gameChannel": "1279884487865532436",
   "gameRankingChannel": "1279884433989701753",
   "devs": ["1198241409476599818"],

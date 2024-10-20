@@ -1,8 +1,8 @@
 .env
 /node_modules
 /src/registerCommands.js
-/src/cadastraBroke.js
-/src/brokes.json
+/src/cadastraSkills.js
+/src/allSkills.json
 /src/updateBroke.js
 /config.json.homolog
 /src/testes.js

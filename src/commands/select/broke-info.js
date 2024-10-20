@@ -6,7 +6,7 @@ module.exports = {
   name: "broke-info",
   description: "Consulta a informação da broke do Pokemon.",
   // devOnly: true,
-  memberOnly: true,
+  // memberOnly: true,
   // testOnly: true,
   options: [
     // {
@@ -75,7 +75,7 @@ module.exports = {
             .setDescription(embedDescription)
             .setThumbnail(thumb)
             .setFooter({
-              text: `Guild ARKHAM. Todos os direitos reservados.`,
+              text: `As informações não são fornecidas oficialmente pela Staff do Psoul. O uso é de responsabilidade do jogador. Em caso de erro, contate a Guild ARKHAM para correção.`,
             });
 
           interaction.reply({ embeds: [embed] });
@@ -98,7 +98,7 @@ module.exports = {
               .setDescription(embedDescription)
               .setThumbnail(thumb)
               .setFooter({
-                text: `Guild ARKHAM. Todos os direitos reservados.`,
+                text: `As informações não são fornecidas oficialmente pela Staff do Psoul. O uso é de responsabilidade do jogador. Em caso de erro, contate a Guild ARKHAM para correção.`,
               });
 
             interaction.channel.send({ embeds: [embed] });
