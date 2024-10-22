@@ -44,6 +44,7 @@ module.exports = {
         if (consulta.length === 0) {
           interaction.reply({
             content: `Nenhuma skill encontrada com nome **${data}**`,
+            ephemeral: true,
           });
           return;
         } else if (consulta.length === 1) {
@@ -63,7 +64,7 @@ module.exports = {
           interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
           let embeds = [];
-          await interaction.deferReply();
+          await interaction.deferReply({ ephemeral: true });
           for (let i = 0; i < consulta.length; i++) {
             skillData = {
               skillName: consulta[i].skillName,
@@ -83,7 +84,6 @@ module.exports = {
           await interaction.editReply({
             content: `Resultados encontrados com **${data}**`,
             embeds: embeds,
-            ephemeral: true,
           });
         }
       } catch (error) {
