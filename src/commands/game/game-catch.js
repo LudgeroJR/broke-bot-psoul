@@ -13,7 +13,7 @@ module.exports = {
   name: "game-catch",
   description: "Teste sua sorte ao tentar capturar um shiny.",
   // devOnly: true,
-  memberOnly: true,
+  // memberOnly: true,
   // testOnly: true,
   // deleted: Boolean,
 
