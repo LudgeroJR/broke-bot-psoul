@@ -15,7 +15,7 @@ module.exports = {
   // devOnly: true,
   // memberOnly: true,
   // testOnly: true,
-  deleted: Boolean,
+  // deleted: Boolean,
 
   callback: async (client, interaction) => {
     var isUserCooldownRound;
