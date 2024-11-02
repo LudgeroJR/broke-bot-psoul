@@ -8,7 +8,7 @@ module.exports = {
   devOnly: true,
   // memberOnly: true,
   // testOnly: true,
-  deleted: Boolean,
+  // deleted: Boolean,
 
   callback: async (client, interaction) => {
     // Criando uma nova lista de pokemon
