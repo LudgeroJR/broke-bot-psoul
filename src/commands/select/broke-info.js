@@ -1,6 +1,5 @@
 const { ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
 const BrokeTable = require("../../models/broketable");
-const getThumbnail = require("../../utils/getThumbnail");
 
 module.exports = {
   name: "broke-info",
@@ -64,7 +63,7 @@ module.exports = {
           consBroke = consulta[0].pokemonBroke;
 
           dexInt = parseInt(consDex);
-          thumb = getThumbnail(dexInt);
+          thumb = consulta[0].thumbnail;
 
           embedTitle = `#${consDex} ${consName}`;
           embedDescription = `Broke: ${consBroke}`;
@@ -78,16 +77,16 @@ module.exports = {
               text: `As informações não são fornecidas oficialmente pela Staff do Psoul. O uso é de responsabilidade do jogador. Em caso de erro, contate a Guild ARKHAM para correção.`,
             });
 
-          interaction.reply({ embeds: [embed] });
+          interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
-          await interaction.deferReply();
+          await interaction.deferReply({ ephemeral: true });
           for (let i = 0; i < consulta.length; i++) {
             consDex = consulta[i].dex;
             consName = consulta[i].pokemonName;
             consBroke = consulta[i].pokemonBroke;
 
             dexInt = parseInt(consDex);
-            thumb = getThumbnail(dexInt);
+            thumb = consulta[i].thumbnail;
 
             embedTitle = `#${consDex} ${consName}`;
             embedDescription = `Broke: ${consBroke}`;
@@ -101,13 +100,9 @@ module.exports = {
                 text: `As informações não são fornecidas oficialmente pela Staff do Psoul. O uso é de responsabilidade do jogador. Em caso de erro, contate a Guild ARKHAM para correção.`,
               });
 
-            interaction.channel.send({ embeds: [embed] });
+            await interaction.followUp({ embeds: [embed], ephemeral: true });
 
-            // if (i === 0) {
-            // 	await interaction.reply({ embeds: [embed] });
-            // } else {
-            // 	await interaction.deferReply({ embeds: [embed] });
-            // }
+            // interaction.channel.send({ embeds: [embed], ephemeral: true });
           }
           await interaction.editReply({
             content: `Resultados encontrados com **${pokemonName}**`,

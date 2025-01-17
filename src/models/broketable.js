@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const brokeTableSchema = new Schema({
   dex: {
@@ -13,10 +13,14 @@ const brokeTableSchema = new Schema({
     type: String,
     required: true,
   },
+  thumbnail: {
+    type: String,
+    required: true,
+  },
   authorName: {
     type: String,
     required: true,
   },
 });
 
-module.exports = model('BrokeTable', brokeTableSchema);
+module.exports = model("BrokeTable", brokeTableSchema);
