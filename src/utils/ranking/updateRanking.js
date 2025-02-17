@@ -8,13 +8,15 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
   const clanBallPoint = 3;
   const ultraBallPoint = 4;
   const greatBallPoint = 6;
-  const premierBallPoint = 12;
-  // const pokemonsLendarios = [
-  //   144, 145, 146, 150, 151, 244, 245, 243, 250, 249, 251, 377, 378, 379, 486,
-  //   380, 381, 383, 382, 384, 385, 386, 480, 481, 482, 483, 484, 487, 488, 491,
-  //   490, 489, 485, 492, 493, 494, 638, 639, 640, 647, 641, 642, 645, 644, 643,
-  //   646, 648, 649, 716, 717, 718, 719, 720, 721, 801,
-  // ];
+  const premierBallPoint = 1;
+  const pokemonsLendarios = [
+    144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251, 377, 378, 379, 380,
+    381, 382, 383, 384, 385, 386, 480, 481, 482, 483, 484, 485, 486, 487, 488,
+    489, 490, 491, 492, 493, 494, 638, 639, 640, 641, 642, 643, 644, 645, 646,
+    647, 648, 649, 716, 717, 718, 719, 720, 721, 772, 773, 785, 786, 787, 788,
+    789, 790, 791, 792, 800, 801, 807, 808, 809, 888, 889, 890, 891, 892, 893,
+    894, 895, 896, 897, 898, 905, 1001, 1002, 1003, 1004, 1007, 1008, 1025,
+  ];
 
   let query = {
     authorId: author.id,
@@ -43,9 +45,11 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
       break;
   }
 
-  // if (pokemonsLendarios.includes(pokemonId)) {
-  //   addPoints *= 2;
-  // }
+  if (pokemonsLendarios.includes(pokemonId)) {
+    addPoints *= 3;
+  } else if (pokemonId == 802) {
+    addPoints *= 5;
+  }
 
   if (!gameRanking) {
     const newGameRanking = new GameRanking({

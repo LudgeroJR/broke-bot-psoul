@@ -16,7 +16,7 @@ module.exports = async (userID) => {
 
     const newCooldownUserRound = new UserRound({
       authorId: userID,
-      countRound: 19,
+      countRound: 9,
       cooldown: newCooldownTime.toISOString(),
     });
 

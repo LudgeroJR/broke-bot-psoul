@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const userRoundSchema = new Schema({
   authorId: {
-    type: Number,
+    type: String,
     required: true,
   },
   countRound: {

@@ -5,8 +5,8 @@
   "brokeCommands": ["broke-add", "broke-info", "broke-delete", "broke-update"],
   "buildChannel": "1195412334022246460",
   "buildCommands": ["build"],
-  "gameChannel": "1302273771473993791",
-  "gameRankingChannel": "1302273851434205286",
+  "gameChannel": "1341054022227857429",
+  "gameRankingChannel": "1341053936836153415",
   "devs": ["1198241409476599818"],
   "members": [
     "1160197070871867422",
@@ -16,5 +16,7 @@
     "1213622328420733029",
     "1181421638563143781",
     "1226878696980484206"
-  ]
+  ],
+  "roleMembersActive1": "1337820289723138148",
+  "roleMembersActive2": "1337820429796114526"
 }

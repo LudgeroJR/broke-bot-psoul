@@ -42,7 +42,7 @@ module.exports = {
         if (isUserCooldownRound) {
           await interaction.editReply({
             content:
-              "Rodadas finalizadas. Você receberá mais 20 na próxima hora.",
+              "Rodadas finalizadas. Você receberá mais rodadas na próxima hora.",
           });
           break;
         }
@@ -84,28 +84,31 @@ module.exports = {
 
         collector.on("collect", async (buttonInteraction) => {
           try {
-            if (
-              buttonInteraction.customId === `BallClan-${interaction.user.id}`
-            ) {
-              rateCapturaBall = 4;
-              ballName = "Ball de Clan";
-            } else if (
-              buttonInteraction.customId === `UltraBall-${interaction.user.id}`
-            ) {
-              rateCapturaBall = 3;
-              ballName = "Ultra Ball";
-            } else if (
-              buttonInteraction.customId === `GreatBall-${interaction.user.id}`
-            ) {
-              rateCapturaBall = 2;
-              ballName = "Great Ball";
-            } else if (
-              buttonInteraction.customId ===
-              `PremierBall-${interaction.user.id}`
-            ) {
-              rateCapturaBall = 1;
-              ballName = "Premier Ball";
-            }
+            // if (
+            //   buttonInteraction.customId === `BallClan-${interaction.user.id}`
+            // ) {
+            //   rateCapturaBall = 4;
+            //   ballName = "Ball de Clan";
+            // } else if (
+            //   buttonInteraction.customId === `UltraBall-${interaction.user.id}`
+            // ) {
+            //   rateCapturaBall = 3;
+            //   ballName = "Ultra Ball";
+            // } else if (
+            //   buttonInteraction.customId === `GreatBall-${interaction.user.id}`
+            // ) {
+            //   rateCapturaBall = 2;
+            //   ballName = "Great Ball";
+            // } else if (
+            //   buttonInteraction.customId ===
+            //   `PremierBall-${interaction.user.id}`
+            // ) {
+            //   rateCapturaBall = 1;
+            //   ballName = "Premier Ball";
+            // }
+
+            rateCapturaBall = 1;
+            ballName = "Premier Ball";
 
             try {
               finalResult = TryCatchPokemon();
