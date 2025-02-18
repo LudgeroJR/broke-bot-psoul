@@ -34,15 +34,15 @@ module.exports = async (client) => {
     for (let i = 0; i < userRound.length; i++) {
       // Verifica se o autor está na lista de membros com a role de 1 hora
       if (memberActiveOneHours.includes(userRound[i].authorId)) {
-        userRound[i].countRound += 15; // Adiciona +15 (10 base + 5 bônus)
+        userRound[i].countRound += 25; // Adiciona +25 (20 base + 5 bônus)
       }
       // Verifica se o autor está na lista de membros com a role de 2 horas
       else if (memberActiveTwoHours.includes(userRound[i].authorId)) {
-        userRound[i].countRound += 20; // Adiciona +20 (10 base + 10 bônus)
+        userRound[i].countRound += 30; // Adiciona +35 (20 base + 10 bônus)
       }
       // Caso o autor não esteja em nenhuma das roles
       else {
-        userRound[i].countRound += 10; // Adiciona apenas +10 (base)
+        userRound[i].countRound += 20; // Adiciona apenas +10 (base)
       }
 
       // Limita o valor máximo de countRound a 200
