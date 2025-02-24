@@ -38,7 +38,7 @@ module.exports = async (client) => {
       }
       // Verifica se o autor está na lista de membros com a role de 2 horas
       else if (memberActiveTwoHours.includes(userRound[i].authorId)) {
-        userRound[i].countRound += 35; // Adiciona +35 (20 base + 10 bônus)
+        userRound[i].countRound += 30; // Adiciona +30 (20 base + 10 bônus)
       }
       // Caso o autor não esteja em nenhuma das roles
       else {

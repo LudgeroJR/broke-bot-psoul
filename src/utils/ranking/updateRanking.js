@@ -46,7 +46,7 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
   }
 
   if (pokemonsLendarios.includes(pokemonId)) {
-    addPoints *= 3;
+    addPoints *= 2;
   } else if (pokemonId == 802) {
     addPoints *= 5;
   }
