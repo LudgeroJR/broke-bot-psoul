@@ -2,7 +2,13 @@
   "server": "1159989127354273852",
   "clientId": "1184634909143355484",
   "brokeChannel": "1186360617167241256",
-  "brokeCommands": ["broke-add", "broke-info", "broke-delete", "broke-update"],
+  "brokeCommands": [
+    "broke-add",
+    "broke-info",
+    "broke-delete",
+    "broke-update",
+    "calcula-broke"
+  ],
   "buildChannel": "1195412334022246460",
   "buildCommands": ["build"],
   "gameChannel": "1341054022227857429",
