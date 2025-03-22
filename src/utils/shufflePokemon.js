@@ -17,6 +17,15 @@ module.exports = async () => {
     return null;
   }
 
+  const userAgents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+  ];
+
+  const getRandomUserAgent = () =>
+    userAgents[Math.floor(Math.random() * userAgents.length)];
+
   const rng = new RNG();
 
   var isShiny;
@@ -27,7 +36,13 @@ module.exports = async () => {
   idPokemonShuffle = rng.getRandomElement(idPokemon);
 
   const response = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon/${idPokemonShuffle}`
+    `https://pokeapi.co/api/v2/pokemon/${idPokemonShuffle}`,
+    {
+      headers: {
+        "User-Agent": getRandomUserAgent(),
+        Accept: "application/json",
+      },
+    }
   );
 
   pokemonName = response.data.name;
