@@ -47,7 +47,6 @@ async function getPokemonData(idPokemonShuffle, isShiny) {
   });
 
   if (cachedPokemon) {
-    console.log("Peguei do cache");
     return {
       name: cachedPokemon.pokemonName,
       thumb: isShiny ? cachedPokemon.thumbShiny : cachedPokemon.thumbNormal,
