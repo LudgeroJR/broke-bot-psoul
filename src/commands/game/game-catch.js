@@ -29,8 +29,9 @@ module.exports = {
     var updatedButtonRow;
 
     while (true) {
+      let roundsLeft;
       try {
-        await RegisterUserRound(interaction.user.id);
+        roundsLeft = await RegisterUserRound(interaction.user.id);
       } catch (error) {
         console.error(`Erro ao registrar a rodada do usuário\n${error}`);
       }
@@ -59,7 +60,11 @@ module.exports = {
         console.error(`Erro ao processar rodada do usuário\n${error}`);
       }
 
-      const gameCatchEmbed = await GameCatchEmbed(interaction.user.id, pokemon);
+      const gameCatchEmbed = await GameCatchEmbed(
+        interaction.user.id,
+        pokemon,
+        roundsLeft
+      );
 
       if (!pokemon.shiny) {
         await interaction.editReply({ embeds: [gameCatchEmbed] });
@@ -182,8 +187,13 @@ module.exports = {
         break; // Sai do loop ao encontrar um shiny
       }
 
+      // Para evitar sincronia entre as requisições para quem executa o comando mais de uma vez
+      const timeoutOptions = [500, 750, 1000, 1250, 1500];
+      const randomDelay =
+        timeoutOptions[Math.floor(Math.random() * timeoutOptions.length)];
+
       // Pequena pausa para evitar flood de requisições
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, randomDelay));
     }
   },
 };

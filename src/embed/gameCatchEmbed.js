@@ -2,22 +2,30 @@ const { EmbedBuilder } = require("discord.js");
 const _ = require("lodash");
 const UserRound = require("./../models/userRoundModel");
 
-module.exports = async (userId, pokemonObject) => {
-  //const pokemonId = pokemonObject.id;
+/**
+ * Gera um embed de Discord para informar sobre o aparecimento de um Pokémon.
+ * @param {string} userId - ID do usuário que está encontrando o Pokémon
+ * @param {Object} pokemonObject - Objeto contendo dados do Pokémon
+ * @param {number} [roundLeft] - Quantidade de rodadas restantes (opcional)
+ * @returns {EmbedBuilder} Embed para ser exibido no Discord
+ */
+module.exports = async (userId, pokemonObject, roundLeft) => {
   const pokemonName = _.startCase(_.toLower(pokemonObject.name));
   const pokemonThumb = pokemonObject.thumb;
   const isShiny = pokemonObject.shiny;
-  var embed;
+  let embed;
 
+  // Se o Pokémon não for Shiny, constrói um embed básico
   if (!isShiny) {
-    const query = {
-      authorId: userId,
-    };
+    let roundsRemaining = roundLeft;
+    if (!roundsRemaining) {
+      // Busca no banco caso não tenha recebido roundLeft
+      const query = { authorId: userId };
+      const userRoundData = await UserRound.findOne(query);
+      roundsRemaining = userRoundData.countRound;
+    }
 
-    const userRoundData = await UserRound.findOne(query);
-    const roundLeft = userRoundData.countRound;
-
-    const footerMsg = `Continue tentando até encontrar um Pokemon Shiny. Rodadas Restantes: ${roundLeft}`;
+    const footerMsg = `Continue tentando até encontrar um Pokemon Shiny. Rodadas Restantes: ${roundsRemaining}`;
 
     embed = new EmbedBuilder()
       .setTitle(`${pokemonName}`)
@@ -29,6 +37,7 @@ module.exports = async (userId, pokemonObject) => {
         text: footerMsg,
       });
   } else {
+    // Se o Pokémon for Shiny, constrói um embed diferenciado
     embed = new EmbedBuilder()
       .setTitle(`Shiny ${pokemonName}`)
       .setDescription(
@@ -40,5 +49,6 @@ module.exports = async (userId, pokemonObject) => {
       });
   }
 
+  // Retorna o embed final
   return embed;
 };

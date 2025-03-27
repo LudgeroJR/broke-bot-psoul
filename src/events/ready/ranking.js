@@ -10,6 +10,7 @@ module.exports = (client) => {
     now.getMilliseconds();
 
   // Reset de rodadas e envio de Ranking a cada hora
+  // ResetUserRound(client);
   setTimeout(() => {
     ResetUserRound(client);
     SendCurrentRanking(client);
