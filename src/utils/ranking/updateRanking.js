@@ -8,7 +8,7 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
   const clanBallPoint = 3;
   const ultraBallPoint = 4;
   const greatBallPoint = 6;
-  const premierBallPoint = 1;
+  const premierBallPoint = 12;
   const pokemonsLendarios = [
     144, 145, 146, 150, 151, 243, 244, 245, 249, 250, 251, 377, 378, 379, 380,
     381, 382, 383, 384, 385, 386, 480, 481, 482, 483, 484, 485, 486, 487, 488,
@@ -45,11 +45,11 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
       break;
   }
 
-  if (pokemonsLendarios.includes(pokemonId)) {
-    addPoints *= 2;
-  } else if (pokemonId == 802) {
-    addPoints *= 5;
-  }
+  // if (pokemonsLendarios.includes(pokemonId)) {
+  //   addPoints *= 2;
+  // } else if (pokemonId == 802) {
+  //   addPoints *= 5;
+  // }
 
   if (!gameRanking) {
     const newGameRanking = new GameRanking({
@@ -75,8 +75,8 @@ module.exports = async (author, rateCapturaBall, pokemonObject) => {
     });
   }
 
-  // Remove pokemon capturado da lista de pokemons disponíveis. Apenas se capturado por Premier ou GreatBall
-  if (rateCapturaBall < 3) {
+  // Remove pokemon capturado da lista de pokemons disponíveis. Apenas se capturado por Premier
+  if (rateCapturaBall == 1) {
     const update = {
       $pull: { idPokemon: pokemonId },
     };
